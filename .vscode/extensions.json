@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "mikestead.dotenv",
+    "rebornix.ruby",
+    "sianglim.slim",
+    "editorconfig.editorconfig"
+  ]
+}
