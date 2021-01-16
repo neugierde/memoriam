@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ancestry:</strong>
+  <%= @taxon.ancestry %>
+</p>
+
+<p>
+  <strong>Taxonomy:</strong>
+  <%= @taxon.taxonomy_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @taxon.name %>
+</p>
+
+<%= link_to 'Edit', edit_taxon_path(@taxon) %> |
+<%= link_to 'Back', taxons_path %>
