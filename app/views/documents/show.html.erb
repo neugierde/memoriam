@@ -1,0 +1,60 @@
+<h1 class="display-1"><%= @document.title %></h1>
+
+<p class="lead"><%= @document.extended_info %></p>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title"><%= @document.title %> <span class="text-muted"><%= @document.hashid %></span></h5>
+        <h6 class="card-subtitle mb-2 text-muted"><%= @document.file&.blob&.filename %></h6>
+        <% @document.tags.each do |tag| %>
+        <span class="badge bg-light text-dark"><%= tag %></span>
+        <% end %>
+    </div>
+    <div class="card-body">
+        <% if @document.file %>
+
+        <div class="float-end">
+            <%= link_to @document.file do %>
+            <% if @document.file.representable? %>
+            <%= image_tag @document.file.representation(resize_to_limit: [200, 200]) %>
+            <% else %>
+            <%= icon 'file-earmark-word', class: 'fs-2' %>
+            <% end %>
+            <% end %>
+        </div>
+        <% end %>
+
+
+
+        <p>
+            <strong>Archival location:</strong>
+            <%= @document.archival_location&.full_name! %>
+        </p>
+        <p>
+            <strong>Category:</strong>
+            <%= @document.category&.name %>
+        </p>
+
+
+    </div>
+
+    <div class="card-footer text-muted">
+        <div class="row">
+            <div class="col">
+                <%= link_to documents_path, class: 'btn btn-secondary' do %>
+                <%= icon 'list' %> Back
+                <% end %>
+            </div>
+            <div class="col-auto">
+                <%= link_to edit_document_path(@document), class: 'btn btn-warning' do %>
+                <%= icon 'pen' %> Edit
+                <% end %>
+            </div>
+            <div class="col-auto">
+                <%= link_to documents_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' do %>
+                <%= icon 'trash' %> Delete
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,18 +1,7 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @taxon.full_name %></h1>
 
-<p>
-  <strong>Ancestry:</strong>
-  <%= @taxon.ancestry %>
-</p>
-
-<p>
-  <strong>Taxonomy:</strong>
-  <%= @taxon.taxonomy_id %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @taxon.name %>
+<p class="lead">
+    <%= simple_format @taxon.extended_info %>
 </p>
 
 <%= link_to 'Edit', edit_taxon_path(@taxon) %> |

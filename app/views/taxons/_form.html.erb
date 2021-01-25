@@ -1,32 +1,28 @@
 <%= form_with(model: taxon) do |form| %>
-  <% if taxon.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(taxon.errors.count, "error") %> prohibited this taxon from being saved:</h2>
+<% if taxon.errors.any? %>
 
-      <ul>
+<div id="error_explanation">
+    <h2><%= pluralize(taxon.errors.count, "error") %> prohibited this taxon from being saved:</h2>
+
+    <ul>
         <% taxon.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <li><%= error.full_message %></li>
         <% end %>
-      </ul>
-    </div>
-  <% end %>
+    </ul>
+</div>
 
-  <div class="field">
-    <%= form.label :ancestry %>
-    <%= form.number_field :ancestry %>
-  </div>
+<% end %>
 
-  <div class="field">
-    <%= form.label :taxonomy_id %>
-    <%= form.text_field :taxonomy_id %>
-  </div>
+<%= form.collection_select :parent_id,
+                           Taxon.not_descendants_of(taxon),
+                           :id,
+                           :full_name,
+                           {prompt: true, include_blank: '<< At top >>'} %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_area :name %>
-  </div>
+<%= form.text_field :name %>
+<%= form.text_area :extended_info %>
 
-  <div class="actions">
+<div class="actions">
     <%= form.submit %>
-  </div>
+</div>
 <% end %>

@@ -1,0 +1,31 @@
+<h1><%= icon 'archive' %> Archival Locations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Organization</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @archival_locations.each do |archival_location| %>
+        <tr>
+            <td><%= archival_location.full_name %></td>
+            <td><%= archival_location.inherited_address_code.then { link_to(_1, ("http://plus.codes/#{u _1}"), target: :blank) } %></td>
+            <td><%= archival_location.organization&.name %></td>
+            <td>
+                <%= link_to icon('eye'), archival_location %>
+                <%= link_to icon('pen'), edit_archival_location_path(archival_location) %>
+                <%= link_to icon('trash'), archival_location, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Archival Location', new_archival_location_path %>

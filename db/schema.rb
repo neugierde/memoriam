@@ -10,38 +10,90 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_16_221349) do
+ActiveRecord::Schema.define(version: 2021_01_23_171958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "organizations", force: :cascade do |t|
-    t.text "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "taxonomies", force: :cascade do |t|
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "archival_locations", force: :cascade do |t|
     t.text "name"
-    t.bigint "organization_id", null: false
+    t.text "extended_info"
+    t.text "address_code"
+    t.bigint "parent_id"
+    t.bigint "organization_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["organization_id"], name: "index_taxonomies_on_organization_id"
+    t.index ["organization_id"], name: "index_archival_locations_on_organization_id"
+    t.index ["parent_id"], name: "index_archival_locations_on_parent_id"
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.text "title"
+    t.text "extended_info"
+    t.string "tags", default: [], array: true
+    t.bigint "archival_location_id"
+    t.bigint "taxon_id"
+    t.bigint "organization_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["archival_location_id"], name: "index_documents_on_archival_location_id"
+    t.index ["organization_id"], name: "index_documents_on_organization_id"
+    t.index ["taxon_id"], name: "index_documents_on_taxon_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.text "name"
+    t.text "extended_info"
+    t.bigint "parent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["parent_id"], name: "index_organizations_on_parent_id"
   end
 
   create_table "taxons", force: :cascade do |t|
-    t.bigint "ancestry", array: true
-    t.bigint "parent_id"
-    t.bigint "taxonomy_id", null: false
     t.text "name"
+    t.text "extended_info"
+    t.bigint "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["ancestry"], name: "index_taxons_on_ancestry"
     t.index ["parent_id"], name: "index_taxons_on_parent_id"
-    t.index ["taxonomy_id"], name: "index_taxons_on_taxonomy_id"
   end
 
-  add_foreign_key "taxonomies", "organizations"
-  add_foreign_key "taxons", "taxonomies"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "archival_locations", "archival_locations", column: "parent_id"
+  add_foreign_key "archival_locations", "organizations"
+  add_foreign_key "documents", "archival_locations"
+  add_foreign_key "documents", "organizations"
+  add_foreign_key "documents", "taxons"
+  add_foreign_key "organizations", "organizations", column: "parent_id"
   add_foreign_key "taxons", "taxons", column: "parent_id"
 end

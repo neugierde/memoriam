@@ -1,0 +1,60 @@
+<h1>Documents</h1>
+
+<div class="card p-2">
+
+    <%= form_with(url: documents_path, model: @filter, method: :get, class: 'row') do |f| %>
+    <div class="col">
+        <%= f.select :format, @filter.class.formats, { include_blank: 'All formats' }, class: 'form-select' %>
+    </div>
+    <div class="col">
+        <%= f.select :location, @filter.class.locations, { include_blank: 'All locations' }, class: 'form-select' %>
+    </div>
+    <div class="col">
+        <%= f.select :category, @filter.class.categories, { include_blank: 'All categories' }, class: 'form-select' %>
+    </div>
+    <div class="col">
+        <%= f.select :organization, @filter.class.organizations, { include_blank: 'All organizations' }, class: 'form-select' %>
+    </div>
+    <div class="col-auto">
+        <%= button_tag icon('search'), class: 'btn btn-primary' %>
+    </div>
+    <% end %>
+
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Archival location</th>
+            <th>Category</th>
+            <th>Organization</th>
+            <th>Tags</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @documents.each do |document| %>
+        <tr>
+            <td>
+                <%= link_to(document.title, document) %><br>
+                <%= tag.small document.file&.filename, class: 'text-muted' %>
+            </td>
+
+            <td><%= link_to(document.archival_location.name, document.archival_location) if document.archival_location %></td>
+            <td><%= link_to(document.category.name, document.category) if document.category %></td>
+            <td><%= link_to(document.organization.name, document.organization) if document.organization %></td>
+
+            <td><%= safe_join(document.tags.map { tag.span _1, class: 'badge bg-primary mx-1' }) %></td>
+            <td>
+                <%= link_to icon('cloud-download'), rails_blob_path(document.file, disposition: "attachment")  if document.file %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Document', new_document_path %>

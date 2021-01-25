@@ -1,0 +1,15 @@
+<h1><%= icon 'archive' %> <%= @archival_location.full_name %> <span class="text-muted"><%= @archival_location.hashid %></span></h1>
+<h2 class="text-muted">
+    <%= icon 'pin-angle' %>
+    <%= @archival_location.inherited_address_code.then { link_to(_1, ("http://plus.codes/#{u _1}"), target: :blank) } %>
+</h2>
+
+<div class="lead"><%= simple_format @archival_location.extended_info %></div>
+
+<p>
+    <strong>Organization:</strong>
+    <%= @archival_location.inherited_organization.name %>
+</p>
+
+<%= link_to 'Edit', edit_archival_location_path(@archival_location) %> |
+<%= link_to 'Back', archival_locations_path %>

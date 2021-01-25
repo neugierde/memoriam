@@ -1,0 +1,11 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - db/schema.rb
+    - db/migrate/**/*.rb
+    - '**/*.rake'
+    - 'spec/**/*_spec.rb'

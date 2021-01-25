@@ -1,13 +1,7 @@
 class Taxon < ApplicationRecord
   include Ancestry
 
-  belongs_to :taxonomy
-
-  before_validation :inherit_taxonomy
-
-  private
-
-  def inherit_taxonomy
-    self.taxonomy = parent.taxonomy if parent
+  def full_name!
+    self.class.with_ancestry.find(id).full_name
   end
 end

@@ -31,3 +31,10 @@
 
 en:
   hello: "Hello world"
+  archival_locations:
+    form:
+      address_code_hint_html: |
+        Copy the "plus code" from google maps or another
+        <a href="https://en.wikipedia.org/wiki/Open_Location_Code" target="_blank">Open
+        Location Code</a> provider.
+        Leave empty to inherit from parent location.

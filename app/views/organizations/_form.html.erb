@@ -1,22 +1,26 @@
 <%= form_with(model: organization) do |form| %>
-  <% if organization.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
+<% if organization.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
 
-      <ul>
+    <ul>
         <% organization.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <li><%= error.full_message %></li>
         <% end %>
-      </ul>
-    </div>
-  <% end %>
+    </ul>
+</div>
+<% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_area :name %>
-  </div>
+<%= form.text_field :name %>
+<%= form.text_area :extended_info %>
 
-  <div class="actions">
+
+<%= form.collection_select :parent_id,
+                           Organization.not_descendants_of(organization),
+                           :id,
+                           :full_name,
+                           {prompt: true, include_blank: '<< At top >>'} %>
+<div class="actions">
     <%= form.submit %>
-  </div>
+</div>
 <% end %>

@@ -1,16 +1,61 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Memoriam</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/3.22.1/tagify.min.js" integrity="sha512-ovIhg1HxYIQQmQ0HWPxfnLruNxkztSlVc1K8PEYT+vkTmbSViIcxU7Y9cleFQMJ2UuB/FyKG9TD0lOTIfGsgnA==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/3.22.1/tagify.min.css" integrity="sha512-91wa7heHLbuVdMrSXbWceVZva6iWDFlkFHnM+9Sc+oXFpTgw1FCqdnuaGBJfDVuNSNl0DwDmeGeJSORB0HyLZQ==" crossorigin="anonymous" />
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+    <%= render MainNavbarComponent.new %>
+    <div class="container-fluid">
+        <div class="row">
+            <%= render SidebarComponent.new do |s| %>
+            <%= s.link to: '/', icon: 'house-door', text: 'Home' %>
+            <%= s.link to: new_document_path, icon: 'cloud-upload', text: 'New Document' %>
+            <%= s.link to: documents_path, icon: 'file-earmark-font', text: 'Documents' %>
+            <%= s.link to: organizations_path, icon: 'shop', text: 'Organizations' %>
+            <%= s.link to: archival_locations_path, icon: 'archive', text: 'Archives' %>
+            <%= s.link to: taxons_path, icon: 'tags', text: 'Taxons' %>
+            <% end %>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <% if notice.present? %>
+                <div class="toast-container position-absolute top-0 end-0 p-3">
+                    <div class="toast" data-bs-autohide="false" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto">Notice</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            <%= notice %>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    window.addEventListener('load', () => {
+                        for (var toastEl of document.querySelectorAll('.toast')) {
+                            new bootstrap.Toast(toastEl).show()
+                        };
+                    })
+                </script>
+                <% end %>
+                <%= yield %>
+            </main>
+        </div>
+    </div>
+</body>
+
 </html>

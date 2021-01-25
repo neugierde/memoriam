@@ -1,0 +1,23 @@
+<%= form_with(model: archival_location) do |form| %>
+<% if archival_location.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(archival_location.errors.count, "error") %> prohibited this achival location from being saved:</h2>
+
+    <ul>
+        <% archival_location.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>
+
+<%= form.text_field :name %>
+<%= form.text_field :address_code %>
+<%= form.parent_select text_method: :full_name %>
+<%= form.collection_select(:organization_id, Organization.with_ancestry, :id, :full_name, {prompt: true}) %>
+<%= form.text_area :extended_info %>
+
+<div class="actions">
+    <%= form.submit %>
+</div>
+<% end %>

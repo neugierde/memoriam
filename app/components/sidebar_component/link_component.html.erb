@@ -1,0 +1,6 @@
+<li class="nav-item">
+    <a class="nav-link <%= 'active' if current_page?(@to) %>" aria-current="page" href="<%= @to %>">
+        <i class="bi bi-<%= @icon %> fs-4"></i>
+        <%= @text || content %>
+    </a>
+</li>
