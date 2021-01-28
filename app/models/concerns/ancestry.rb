@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Replicates the features from https://github.com/stefankroes/ancestry
-# using an array[bigint] column
 module Ancestry
   extend ActiveSupport::Concern
 
